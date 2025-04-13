@@ -1,0 +1,51 @@
+# 🎓 MERN LMS with Streaming Features
+
+A full-featured Learning Management System (LMS) built using the MERN stack (MongoDB, Express, React, Node.js) with integrated **video streaming capabilities**.
+
+## 🚀 Features
+
+- 👨‍🏫 Instructor & Student Roles
+- 🧾 Course Creation & Management
+- 🎥 Video Upload & Streaming (secure playback)
+- 🧠 Quizzes & Assignments
+- 📊 Progress Tracking
+- 💬 Comments & Discussions
+- 🔐 Authentication & Authorization (JWT)
+- 🎨 Modern UI with React + Tailwind CSS
+
+---
+
+## 🛠️ Tech Stack
+
+| Tech | Usage |
+|------|-------|
+| MongoDB | Database for storing users, courses, progress, etc. |
+| Express.js | Backend framework for APIs |
+| React.js | Frontend UI |
+| Node.js | Runtime for backend server |
+| Mongoose | MongoDB ODM |
+| Multer / Cloudinary | File uploads & video storage |
+| HLS / Video.js | Video streaming (adaptive) |
+| Tailwind CSS | Styling |
+| JWT | Authentication |
+
+---
+
+## 📁 Project Structure
+
+
+---
+
+## 📦 Installation
+
+1. **Clone the repo**
+
+```bash
+git clone https://github.com/your-username/lms-streaming.git
+cd lms-streaming
+
+
+
+---
+
+Want to include badges, GitHub Actions, Docker support, or deploy instructions (e.g. Vercel/Render)? Just let me know! 
