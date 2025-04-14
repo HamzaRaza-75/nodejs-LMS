@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import userMethods from './staticinstancemethods/user.methods';
 const { Schema } = mongoose;
 
 const userSchema = new Schema(
@@ -30,5 +31,7 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 );
+
+userMethods(userSchema);
 
 export default mongoose.model('User', userSchema);
