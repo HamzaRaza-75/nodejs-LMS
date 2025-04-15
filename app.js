@@ -10,11 +10,7 @@ import { error, success } from './src/utils/index.js';
 const numCpus = os.availableParallelism();
 
 const app = express();
-
-app.get('/', (req, res) => {
-  success(res, 200, 'hi hamza', 'some data');
-});
-
+app.use(express.json());
 app.use(errorHandler);
 
 if (cluster.isPrimary) {
