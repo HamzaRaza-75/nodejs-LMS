@@ -4,9 +4,12 @@ import { success } from '../utils/response.utils.js';
 
 const router = express.Router();
 
-router.use('/', (req, res) => {
-  success(res, 200, 'Route hitting successfully', 'some data');
+router.get('/', (req, res) => {
+  return success(res, 200, 'Route hitting successfully', 'some data');
 });
+
+console.log('this is hitting again');
+
 router.use('/admin', adminRoutes);
 
 export default router;
