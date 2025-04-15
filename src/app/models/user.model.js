@@ -5,8 +5,18 @@ const { Schema } = mongoose;
 const userSchema = new Schema(
   {
     name: {
-      firstname: String,
-      lastname: String,
+      firstname: {
+        required: true,
+        type: String,
+        min: 6,
+        max: 20,
+      },
+      lastname: {
+        required: true,
+        type: String,
+        min: 6,
+        max: 20,
+      },
     },
     email: {
       type: String,
