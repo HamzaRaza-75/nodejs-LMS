@@ -4,7 +4,14 @@ import cors from 'cors';
 import { dbConnection } from './src/app/services/dbconnect.js';
 import rootroutes from './src/routes/root.routes.js';
 
-app.use('/api', rootroutes);
+app.use(
+  '/api',
+  (req, res, next) => {
+    console.log(req.originalUrl);
+    next();
+  },
+  rootroutes
+);
 
 app.use(cors()); //here we have to configure the cors options which are already imported on up
 // app.use('/api');
