@@ -1,3 +1,4 @@
+import 'module-alias/register';
 import cluster from 'node:cluster';
 import http from 'node:http';
 import os from 'node:os';

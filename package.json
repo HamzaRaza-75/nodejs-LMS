@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev" : "nodemon server.js"
+    "dev": "nodemon server.js"
   },
   "author": "hamza",
   "license": "ISC",
@@ -17,10 +17,21 @@
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
+    "module-alias": "^2.2.3",
     "mongoose": "^8.13.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.9",
     "prettier": "^3.5.3"
+  },
+  "_moduleAliases" : {
+    "@controller" : "src/app/controller",
+    "@middleware" : "src/app/middleware",
+    "@models" : "src/app/models",
+    "@services" : "src/app/services",
+    "@config" : "src/config/index.js",
+    "@routes" : "src/routes",
+    "@utils" : "src/utils/index.js",
+    "@root" : "."
   }
 }
