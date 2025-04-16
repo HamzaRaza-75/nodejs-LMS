@@ -1,4 +1,5 @@
 require('module-alias/register');
+const moduleAlias = require('module-alias');
 const cluster = require('node:cluster');
 const os = require('node:os');
 require('dotenv/config');
@@ -8,9 +9,10 @@ const { errorHandler } = require('@middlewares/index');
 const numCpus = os.availableParallelism();
 
 const app = express();
+
 app.use(express.json());
-// app.use(errorHandler);
-console.log(errorHandler);
+app.use(errorHandler);
+// console.log(errorHandler);
 
 if (cluster.isPrimary) {
   for (let i = 0; i < numCpus; i++) {

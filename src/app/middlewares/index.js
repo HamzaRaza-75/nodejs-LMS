@@ -1,3 +1,2 @@
-const errormiddleware = require('./defaulterror.middleware');
-
-module.exports = { ...errormiddleware };
+const errorHandler = require('./defaulterror.middleware');
+module.exports = { errorHandler };

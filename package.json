@@ -3,6 +3,17 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "commonjs",
+  "_moduleAliases": {
+      "@root"   : ".", 
+      "@controllers" : "src/app/controllers",
+      "@middlewares" : "./src/app/middlewares",
+      "@models" : "src/app/models",
+      "@services"  : "src/app/services",
+      "@instancemethods" : "src/app/models/staticinstancemethods",
+      "@config" : "src/config",
+      "@routes" : "src/routes",
+      "@utils" : "src/utils"
+  },
   "scripts": {
     "dev": "nodemon server.js"
   },
@@ -23,17 +34,6 @@
   "devDependencies": {
     "nodemon": "^3.1.9",
     "prettier": "^3.5.3"
-  },
-  "_moduleAliases": {
-      "@root"   : ".", 
-      "@controllers" : "src/app/controllers",
-      "@middlewares" : "src/app/middlewares",
-      "@models" : "src/app/models",
-      "@services"  : "src/app/services",
-      "@instancemethods" : "src/app/models/staticinstancemethods",
-      "@config" : "src/config",
-      "@routes" : "src/routes",
-      "@utils" : "src/utils"
   }
-}
+  }
   
