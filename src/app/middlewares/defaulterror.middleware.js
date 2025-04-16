@@ -1,6 +1,6 @@
-import { NODE_ENV } from '../../config/index.js';
+const { NODE_ENV } = require('@config');
 
-export function errorHandler(err, req, res, next) {
+function errorHandler(err, req, res, next) {
   console.error('💥 Error:', err.stack); // shows file + line number
 
   res.status(err.status || 500).json({
@@ -9,3 +9,5 @@ export function errorHandler(err, req, res, next) {
     error: NODE_ENV === 'development' ? err.stack : undefined,
   });
 }
+
+module.exports = errorHandler;
