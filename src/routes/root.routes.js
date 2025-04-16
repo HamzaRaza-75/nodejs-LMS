@@ -1,8 +1,6 @@
-import express from 'express';
-import adminRoutes from './admin/admin.js';
-import { success } from '../utils/response.utils.js';
-
-const router = express.Router();
+const router = require('express').Router();
+const adminRoutes = require('./admin/admin');
+const { success } = require('../utils');
 
 router.get('/', (req, res) => {
   return success(res, 200, 'Route hitting successfully', 'some data');
@@ -10,6 +8,6 @@ router.get('/', (req, res) => {
 
 console.log('this is hitting again');
 
-router.use('/admin', adminRoutes);
+router.use('/admin', adminRoutes.router);
 
-export default router;
+module.exports = router;

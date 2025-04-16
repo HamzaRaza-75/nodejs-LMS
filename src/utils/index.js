@@ -1,1 +1,3 @@
-export * from './response.utils.js';
+const response = require('./response.utils');
+
+module.exports = { ...response };

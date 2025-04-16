@@ -1,10 +1,8 @@
-import express from 'express';
-import { success } from '../../utils/index.js';
-
-const router = express.Router();
+const router = require('express').Router();
+const { success } = require('../../utils');
 
 router.get('/', (req, res) => {
   success(res, 200, 'courses Fetched Successfully', 'some data');
 });
 
-export default router;
+module.exports = { router };

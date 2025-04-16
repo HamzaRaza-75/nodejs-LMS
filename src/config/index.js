@@ -1,1 +1,3 @@
-export * from './common.config.js';
+const config = require('./common.config.js');
+
+module.exports = { ...config };

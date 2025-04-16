@@ -2,7 +2,6 @@
   "name": "fcwebapplms",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "dev": "nodemon server.js"
   },
@@ -23,15 +22,7 @@
   "devDependencies": {
     "nodemon": "^3.1.9",
     "prettier": "^3.5.3"
-  },
-  "_moduleAliases" : {
-    "@controller" : "src/app/controller",
-    "@middleware" : "src/app/middleware",
-    "@models" : "src/app/models",
-    "@services" : "src/app/services",
-    "@config" : "src/config/index.js",
-    "@routes" : "src/routes",
-    "@utils" : "src/utils/index.js",
-    "@root" : "."
   }
+
+  
 }

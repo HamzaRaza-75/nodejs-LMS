@@ -1,5 +1,5 @@
-import { DATABASE_CONNECTION, checkstatus } from '../../config/index.js';
-import mongoose from 'mongoose';
+const { DATABASE_CONNECTION, checkstatus } = require('../../config');
+const mongoose = require('mongoose');
 
 async function dbConnection() {
   try {
@@ -10,4 +10,4 @@ async function dbConnection() {
   }
 }
 
-export { dbConnection };
+module.exports = dbConnection;

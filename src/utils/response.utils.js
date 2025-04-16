@@ -14,4 +14,4 @@ const error = (res, code = 400, message = 'Some error happened', err = {}) => {
   });
 };
 
-export { success, error };
+module.exports = { success, error };

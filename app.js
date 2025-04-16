@@ -1,18 +1,15 @@
-import 'module-alias/register';
-import cluster from 'node:cluster';
-import http from 'node:http';
-import os from 'node:os';
-import process from 'node:process';
-import 'dotenv/config';
-import express from 'express';
-import { errorHandler } from './src/app/middlewares/index.js';
-import { error, success } from './src/utils/index.js';
+require('module-alias/register');
+const cluster = require('node:cluster');
+const os = require('node:os');
+require('dotenv/config');
+const express = require('express');
+// import { errorHandler } from '@middlewares';
 
 const numCpus = os.availableParallelism();
 
 const app = express();
 app.use(express.json());
-app.use(errorHandler);
+// app.use(errorHandler);
 
 if (cluster.isPrimary) {
   for (let i = 0; i < numCpus; i++) {
@@ -24,4 +21,4 @@ if (cluster.isPrimary) {
   });
 }
 
-export default app;
+module.exports = { app };

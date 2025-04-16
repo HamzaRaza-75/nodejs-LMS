@@ -1,13 +1,11 @@
-import express from 'express';
-import { success } from '../../utils/index.js';
-import adminCourse from './admin.courses.js';
-
-const router = express.Router();
+const router = require('express').Router();
+const { success } = require('../../utils');
+const adminCourse = require('./admin.courses');
 
 router.get('/', (req, res) => {
   success(res, 200, 'some message', 'perfectly hitting routes');
 });
 
-router.use('/courses', adminCourse);
+router.use('/courses', adminCourse.router);
 
-export default router;
+module.exports = { router };
