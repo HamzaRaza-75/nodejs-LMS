@@ -1,5 +1,6 @@
-import mongoose from 'mongoose';
-import userMethods from './staticinstancemethods/user.methods';
+const userMethods = require('@instancemethods/user.methods');
+const mongoose = require('mongoose');
+
 const { Schema } = mongoose;
 
 const userSchema = new Schema(
@@ -44,4 +45,5 @@ const userSchema = new Schema(
 
 userMethods(userSchema);
 
-export default mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+module.exports = User;

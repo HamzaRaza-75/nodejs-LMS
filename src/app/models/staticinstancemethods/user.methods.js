@@ -1,4 +1,4 @@
-export default function userMethods(schema) {
+function userMethods(schema) {
   schema.statics.findByName = function (username) {
     return this.find({ name: username });
   };
@@ -19,3 +19,5 @@ export default function userMethods(schema) {
       this.name.last = rest.join(' ') || '';
     });
 }
+
+module.exports = userMethods;

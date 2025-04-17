@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const enrollmentSchema = new mongoose.Schema(
   {
@@ -10,4 +10,5 @@ const enrollmentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model('Enrollment', enrollmentSchema);
+const Enrollment = mongoose.model('Enrollment', enrollmentSchema);
+module.exports = Enrollment;

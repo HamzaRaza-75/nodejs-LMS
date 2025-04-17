@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const userWatchedSchema = new mongoose.Schema(
   {
@@ -20,4 +20,5 @@ const userWatchedSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model('UserWatched', userWatchedSchema);
+const UserWatched = mongoose.model('UserWatched', userWatchedSchema);
+module.exports = UserWatched;

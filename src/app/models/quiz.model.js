@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const quizSchema = new mongoose.Schema(
   {
@@ -14,5 +14,5 @@ const quizSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-export default mongoose.model('Quiz', quizSchema);
+const Quiz = mongoose.model('Quiz', quizSchema);
+module.exports = Quiz;
