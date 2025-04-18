@@ -21,8 +21,7 @@ const signup = async (req, res, next) => {
     const data = await authservice.signupUser(req.body);
     return success(res, 200, 'Fetched successfully', data);
   } catch (err) {
-    console.log('Error while getting authservice', err.message);
-    return error(res, 404, 'Failed to fetch', err);
+    return error(res, 400, 'Failed to save', err.message);
   }
 };
 
