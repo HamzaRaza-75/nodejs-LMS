@@ -6,7 +6,7 @@
   "_moduleAliases": {
     "@root": ".",
     "@controllers": "src/app/controllers",
-    "@middlewares": "./src/app/middlewares",
+    "@middlewares": "src/app/middlewares",
     "@models": "src/app/models",
     "@services": "src/app/services",
     "@instancemethods": "src/app/models/staticinstancemethods",

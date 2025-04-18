@@ -40,10 +40,11 @@ const userSchema = new Schema(
       default: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
 userMethods(userSchema);
 
 const User = mongoose.model('User', userSchema);
+
 module.exports = User;

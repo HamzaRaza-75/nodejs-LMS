@@ -16,10 +16,13 @@ const corsOptions = {
 
 const checkstatus = env.NODE_ENV === 'development' ? true : false;
 
+const secret_key = env.SECRET_KEY || 'hamzaraza@';
+
 module.exports = {
   checkstatus,
   corsOptions,
   DATABASE_CONNECTION,
   NODE_ENV,
   PORT,
+  secret_key,
 };

@@ -1,13 +1,14 @@
+const { generatePassword } = require('@utils');
+
 function userMethods(schema) {
   schema.statics.findByName = function (username) {
     return this.find({ name: username });
   };
 
-  schema.statics.findByRoles = function (role) {
-    return this.find({ role: role });
+  schema.statics.findByRoles = function (role_id) {
+    return this.find({ role: role_id });
   };
 
-  // virtuals
   schema
     .virtual('fullName')
     .get(function () {
@@ -15,9 +16,15 @@ function userMethods(schema) {
     })
     .set(function (name) {
       const [first, ...rest] = name.trim().split(' ');
-      this.name.first = first;
-      this.name.last = rest.join(' ') || '';
+      this.name.firstname = first;
+      this.name.lastname = rest.join(' ') || '';
     });
+
+  schema.pre('save', async function () {
+    if (this.isModified('password')) {
+      this.password = await generatePassword(this.password);
+    }
+  });
 }
 
 module.exports = userMethods;

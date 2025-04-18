@@ -16,9 +16,7 @@ if (cluster.isPrimary) {
     cluster.fork();
   }
 
-  cluster.on('exit', (worker, code, signal) => {
-    // console.log(`worker ${worker.process.pid} died`);
-  });
+  cluster.on('exit', (worker, code, signal) => {});
 }
 
 module.exports = { app };
