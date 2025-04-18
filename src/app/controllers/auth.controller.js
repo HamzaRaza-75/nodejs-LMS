@@ -1,7 +1,27 @@
-async function login(jwt) {}
+const authservice = require('@services/auth.services');
+const { success, error } = require('@utils');
 
-async function logout(jwt) {}
+const login = async (req, res, next) => {
+  try {
+    const data = await authservice.login({
+      email: req.body.email,
+      password: req.body.password,
+    });
+    return success(res, 200, 'Fetched successfully', data);
+  } catch (err) {
+    console.error('Error while getting authservice', err.message);
+    error(res, 'Failed to fetch');
+  }
+};
 
-async function signup() {}
+const signup = async (req, res, next) => {
+  try {
+    const data = await authservice.getMultiple(req.query.page);
+    success(res, 200, 'Fetched successfully', data);
+  } catch (err) {
+    console.error('Error while getting authservice', err.message);
+    error(res, 'Failed to fetch');
+  }
+};
 
-async function updateprofile(jwt, newdata) {}
+module.exports = { login, signup };

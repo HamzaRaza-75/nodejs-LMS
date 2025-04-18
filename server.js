@@ -8,13 +8,12 @@ const rootroutes = require('@routes/root.routes');
 app.use(
   '/api',
   (req, res, next) => {
-    winston.error('some error is comming');
     next();
   },
   rootroutes
 );
 
-app.use(cors()); //here we have to configure the cors options which are already imported on up
+app.use(cors());
 dbConnection();
 
 app.listen(PORT, () => {

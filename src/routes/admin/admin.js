@@ -8,4 +8,4 @@ router.get('/', (req, res) => {
 
 router.use('/courses', adminCourse.router);
 
-module.exports = { router };
+module.exports = router;
