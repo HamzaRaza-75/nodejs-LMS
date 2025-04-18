@@ -1,9 +1,9 @@
 const app = require('./app').app;
 
-const { PORT, corsOptions } = require('./src/config');
+const { PORT, corsOptions } = require('@config');
 const cors = require('cors');
-const dbConnection = require('./src/app/services/dbconnect');
-const rootroutes = require('./src/routes/root.routes');
+const dbConnection = require('@services/dbconnect');
+const rootroutes = require('@routes/root.routes');
 
 app.use(
   '/api',
