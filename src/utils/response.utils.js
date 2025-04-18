@@ -6,11 +6,16 @@ const success = (res, code, message, data = {}) => {
   });
 };
 
-const error = (res, code = 400, message = 'Some error happened', err = {}) => {
+const error = (
+  res,
+  code = 400,
+  message = 'Some error happened',
+  err = 'something went wrong'
+) => {
   return res.status(code).json({
     success: false,
-    message,
-    error: typeof err === 'object' && err.message ? err.message : err,
+    message: message,
+    error: err,
   });
 };
 

@@ -3,24 +3,26 @@ const { success, error } = require('@utils');
 
 const login = async (req, res, next) => {
   try {
-    const data = await authservice.login({
-      email: req.body.email,
-      password: req.body.password,
+    const data = req.body;
+    const user = await authservice.loginUser({
+      email: data.email,
+      password: data.password,
     });
-    return success(res, 200, 'Fetched successfully', data);
+
+    return success(res, 200, 'Fetched successfully', user);
   } catch (err) {
-    console.error('Error while getting authservice', err.message);
-    error(res, 'Failed to fetch');
+    console.log(err);
+    return error(res, 404, 'Failed to fetch', err.message);
   }
 };
 
 const signup = async (req, res, next) => {
   try {
-    const data = await authservice.getMultiple(req.query.page);
-    success(res, 200, 'Fetched successfully', data);
+    const data = await authservice.signupUser(req.body);
+    return success(res, 200, 'Fetched successfully', data);
   } catch (err) {
-    console.error('Error while getting authservice', err.message);
-    error(res, 'Failed to fetch');
+    console.log('Error while getting authservice', err.message);
+    return error(res, 404, 'Failed to fetch', err);
   }
 };
 
