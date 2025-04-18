@@ -31,9 +31,9 @@ const userSchema = new Schema(
       required: [true, 'password is required'],
     },
     role: {
-      type: String,
-      enum: ['student', 'instructor', 'admin'],
-      default: 'student',
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Role',
+      required: true,
     },
     isActive: {
       type: Boolean,

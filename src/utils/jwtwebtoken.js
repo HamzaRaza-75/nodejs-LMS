@@ -15,7 +15,7 @@ function verifyToken(token) {
 
 function createToken(object) {
   return new Promise((resolve, reject) => {
-    jwt.sign(object, secret_key, function (err, token) {
+    jwt.sign(object, secret_key, { expiresIn: '4d' }, function (err, token) {
       if (err) {
         reject(err);
       } else {
