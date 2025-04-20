@@ -1,10 +1,13 @@
 const User = require('@models/user.model');
-const { createToken } = require('@utils');
+const { createToken, AppError, NotFoundError } = require('@utils');
 const bcrypt = require('bcryptjs');
 const Role = require('../models/role.model');
 
 const signupUser = async (data) => {
   const roleId = await Role.findOne({ name: 'student' });
+  if (!roleId) {
+    throw new NotFoundError('Role Not found');
+  }
   const newUser = new User({
     name: { firstname: data.name.firstname, lastname: data.name.lastname },
     email: data.email,
@@ -14,7 +17,7 @@ const signupUser = async (data) => {
   await newUser.save();
 
   if (!newUser) {
-    throw new Error();
+    throw new AppError(500, 'User is not saved');
   }
 
   const payload = newUser.toObject();
@@ -26,7 +29,7 @@ const signupUser = async (data) => {
 
   const jwt = await createToken(payload);
 
-  return { data: payload };
+  return { jwt };
 };
 
 const loginUser = async (data) => {

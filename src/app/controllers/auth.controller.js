@@ -11,8 +11,7 @@ const login = async (req, res, next) => {
 
     return success(res, 200, 'Fetched successfully', user);
   } catch (err) {
-    console.log(err);
-    return error(res, 404, 'Failed to fetch', err.message);
+    return error(res, err.statusCode, 'Failed to fetch', err.message);
   }
 };
 
@@ -21,7 +20,8 @@ const signup = async (req, res, next) => {
     const data = await authservice.signupUser(req.body);
     return success(res, 200, 'Fetched successfully', data);
   } catch (err) {
-    return error(res, 400, 'Failed to save', err.message);
+    console.log(err);
+    return error(res, err.statusCode, 'Failed to save', err.message);
   }
 };
 

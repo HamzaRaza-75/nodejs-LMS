@@ -1,22 +1,20 @@
-const jwt = require('jsonwebtoken');
 const User = require('@models/user.model');
 const Role = require('@models/role.model');
-const { error } = require('@utils');
-const { secret_key } = require('@config');
+const { error, verifyToken, error } = require('@utils');
 
 const authMiddleware = async (req, res, next) => {
   try {
-    const token = req.headers.authorization?.split(' ')[1]; // Bearer <token>
+    const token = req.headers.authorization?.split(' ')[1];
     if (!token) throw new Error('Unauthorized');
 
-    const decoded = jwt.verify(token, secret_key);
+    const decoded = await verifyToken(token);
     const user = await User.findById(decoded._id);
     if (!user) throw new Error('User not found');
 
     req.user = user;
     next();
   } catch (err) {
-    return res.status(401).json({ success: false, message: 'Unauthorized' });
+    return error(res, 500, 'something went wrong', err);
   }
 };
 

@@ -25,6 +25,22 @@ function userMethods(schema) {
       this.password = await generatePassword(this.password);
     }
   });
+
+  schema.set('toJSON', {
+    transform: function (doc, ret) {
+      delete ret.password;
+      delete ret.__v;
+      return ret;
+    },
+  });
+
+  schema.set('toObject', {
+    transform: function (doc, ret, options) {
+      delete ret.password;
+      delete ret.__v;
+      return ret;
+    },
+  });
 }
 
 module.exports = userMethods;

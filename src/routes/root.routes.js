@@ -1,6 +1,7 @@
 const router = require('express').Router();
-const adminRoutes = require('./admin/admin');
-const authroutes = require('@routes/common/auth.route');
+const adminRoutes = require('@routes/admin/admin');
+const authroutes = require('@routes/common/auth');
+const helperRoutes = require('@routes/helper');
 const { success } = require('@utils');
 
 router.get('/', (req, res) => {
@@ -10,5 +11,7 @@ router.get('/', (req, res) => {
 router.use('/auth', authroutes);
 
 router.use('/admin', adminRoutes);
+
+router.use('/helper', helperRoutes);
 
 module.exports = router;
