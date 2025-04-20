@@ -23,7 +23,6 @@ const signupUser = async (data) => {
   const payload = newUser.toObject();
   delete payload.__v;
   delete payload.password;
-  delete payload._id;
   delete payload.createdAt;
   delete payload.updatedAt;
 
@@ -45,7 +44,6 @@ const loginUser = async (data) => {
   }
 
   const payload = foundUser.toObject();
-  delete payload._id;
   delete payload.password;
   delete payload.__v;
   delete payload.updatedAt;

@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const { secret_key } = require('@config');
 
 function verifyToken(token) {
+  console.log(token);
   return new Promise((resolve, reject) => {
     jwt.verify(token, secret_key, (err, decoded) => {
       if (err) {
@@ -15,7 +16,7 @@ function verifyToken(token) {
 
 function createToken(object) {
   return new Promise((resolve, reject) => {
-    jwt.sign(object, secret_key, { expiresIn: '4d' }, function (err, token) {
+    jwt.sign(object, secret_key, { expiresIn: '2d' }, function (err, token) {
       if (err) {
         reject(err);
       } else {

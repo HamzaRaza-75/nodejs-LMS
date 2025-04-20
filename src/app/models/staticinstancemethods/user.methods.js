@@ -29,7 +29,6 @@ function userMethods(schema) {
   schema.set('toJSON', {
     transform: function (doc, ret) {
       delete ret.password;
-      delete ret.__v;
       return ret;
     },
   });
@@ -37,7 +36,6 @@ function userMethods(schema) {
   schema.set('toObject', {
     transform: function (doc, ret, options) {
       delete ret.password;
-      delete ret.__v;
       return ret;
     },
   });
