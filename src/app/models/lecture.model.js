@@ -3,8 +3,8 @@ const lectureSchema = new mongoose.Schema(
   {
     title: String,
     videoUrl: String,
-    course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
-    module: { type: mongoose.Schema.Types.ObjectId, ref: 'Module' },
+    course_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
+    module_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Module' },
     uploadedby: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -12,7 +12,7 @@ const lectureSchema = new mongoose.Schema(
     },
     duration: Number,
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
 const Lecture = mongoose.model('Lecture', lectureSchema);
