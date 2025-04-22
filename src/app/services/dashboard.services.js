@@ -1,39 +1,76 @@
 const User = require('@models/user.model');
 const Course = require('@models/course.model');
+const Enrollment = require('@models/enrollment.model');
+const Notification = require('@models/notification.model');
 
 const { success, error, NotfoundError } = require('@utils');
 
-const adminDashboard = async () => {
+const adminDashboard = async (req) => {
   try {
-    const userCount = await User.aggregate([
+    const [userCount] = await User.aggregate([
       { $match: { isActive: true } },
       { $count: 'totalActiveUsers' },
     ]);
 
-    const courseCount = await Course.aggregate([
+    const [courseCount] = await Course.aggregate([
       { $match: { isApproved: true } },
       { $count: 'totalCourses' },
     ]);
 
-    const totalEnrolledStudents = await Enrollment.aggregate([
+    const [totalEnrolledStudents] = await Enrollment.aggregate([
       { $match: { isApproved: true } },
       {
-        $count: 'enrolledStudents',
+        $lookup: {
+          from: 'users',
+          localField: 'student',
+          foreignField: '_id',
+          as: 'students',
+        },
+      },
+      {
+        $lookup: {
+          from: 'courses',
+          localField: 'course',
+          foreignField: '_id',
+          as: 'course',
+        },
+      },
+      {
+        $facet: {
+          monthlyCounts: [
+            {
+              $group: {
+                _id: { $month: '$createdAt' },
+                count: { $sum: 1 },
+              },
+            },
+            { $sort: { _id: 1 } },
+          ],
+          total: [{ $count: 'totalCount' }],
+        },
       },
     ]);
 
-    if (
-      userCount.length === 0 &&
-      courseCount.length === 0 &&
-      totalEnrolledStudents.length === 0
-    ) {
-      throw new NotfoundError('Not Found');
+    const [notificationsData] = await Notification.aggregate([
+      { $match: { read: false, recipient: req.user._id } },
+      {
+        $facet: {
+          totalCount: [{ $count: 'unreadNotifications' }],
+          notifications: [{ $skip: 0 }, { $limit: 15 }],
+        },
+      },
+    ]);
+
+    if (!userCount && !courseCount && !totalEnrolledStudents) {
+      throw new NotfoundError('Data not found');
     }
 
     const data = {
-      userCount: userCount[0]?.totalActiveUsers || 0,
-      courseCount: courseCount[0]?.totalCourses || 0,
-      enrolledStudents: totalEnrolledStudents[0]?.totalEnrolledStudents || 0,
+      userCount: userCount?.totalActiveUsers || 0,
+      courseCount: courseCount?.totalCourses || 0,
+      enrolledStudents: totalEnrolledStudents?.[1]?.total || 0, // Note: Total count should be from facet
+      notifications: notificationsData?.[1] || [],
+      notificationCount: notificationsData?.[0]?.unreadNotifications || 0,
     };
 
     return data;

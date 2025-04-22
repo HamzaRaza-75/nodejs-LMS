@@ -1,9 +1,9 @@
-const adminDashboard = require('@services/dashboard.services');
+const { adminDashboard } = require('@services/dashboard.services');
 const { success, error } = require('@utils');
 
 const get = async (req, res, next) => {
   try {
-    const data = await adminDashboard.adminDashboard();
+    const data = await adminDashboard(req);
     return success(res, 200, 'Fetched successfully', data);
   } catch (err) {
     console.error('Error while getting adminDashboard', err.message);

@@ -5,6 +5,7 @@ const enrollmentSchema = new mongoose.Schema(
     student: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
     isApproved: { type: Boolean, default: false },
+    completed: { type: Boolean, default: false },
     enrolledAt: { type: Date, default: Date.now },
     progress: { type: Number, default: 0 },
   },

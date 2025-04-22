@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const notificationSchema = new mongoose.Schema(
   {
     recipient: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    message: String,
+    data: {
+      type: Object,
+      required: true,
+    },
     read: { type: Boolean, default: false },
     type: {
       type: String,
@@ -18,7 +21,7 @@ const notificationSchema = new mongoose.Schema(
       ],
     },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
 const Notification = mongoose.model('Notification', notificationSchema);
