@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const adminRoutes = require('@routes/admin/admin');
+const instructorRoutes = require('@routes/instructor');
 const authroutes = require('@routes/common/auth');
 const helperRoutes = require('@routes/helper');
 const { success } = require('@utils');
@@ -12,6 +13,12 @@ router.get('/', (req, res) => {
 router.use('/auth', authroutes);
 
 router.use('/admin', authMiddleware, roleCheck('admin'), adminRoutes);
+router.use(
+  '/instructor',
+  authMiddleware,
+  roleCheck('insturctor'),
+  instructorRoutes
+);
 
 router.use('/helper', helperRoutes);
 

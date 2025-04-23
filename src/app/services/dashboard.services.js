@@ -73,11 +73,56 @@ const adminDashboard = async (req) => {
   }
 };
 
-const instructorDashboard = async (id) => {
+const instructorDashboard = async (req) => {
   try {
-    const data = await ModelName.findById(id);
-    if (!data) return error('Not Found', 404);
-    return success('Fetched successfully', data);
+    const dashboardData = await Course.aggregate([
+      {
+        $match: {
+          instructor: req.user._id,
+          status: 'approved',
+        },
+      },
+      {
+        $lookup: {
+          from: 'enrollments',
+          localField: '_id',
+          foreignField: 'course',
+          pipeline: [
+            { $match: { isApproved: true } },
+            { $count: 'approvedEnrollments' },
+          ],
+          as: 'approvedEnrollments',
+        },
+      },
+      {
+        $lookup: {
+          from: 'reviews', // Assuming you have a 'reviews' collection
+          localField: '_id',
+          foreignField: 'course',
+          pipeline: [{ $count: 'totalReviews' }],
+          as: 'reviewStats',
+        },
+      },
+      {
+        $addFields: {
+          approvedEnrollmentCount: {
+            $arrayElemAt: ['$approvedEnrollments.approvedEnrollments', 0],
+          },
+          reviewCount: {
+            $arrayElemAt: ['$reviewStats.totalReviews', 0],
+          },
+        },
+      },
+      {
+        $project: {
+          title: 1,
+          approvedEnrollmentCount: 1,
+          reviewCount: 1,
+        },
+      },
+    ]);
+
+    return dashboardData;
   } catch (err) {
     throw err;
   }
