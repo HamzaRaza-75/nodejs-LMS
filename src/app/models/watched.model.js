@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const userWatchedSchema = new mongoose.Schema(
   {
-    user_id: {
+    student: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,

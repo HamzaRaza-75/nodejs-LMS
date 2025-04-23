@@ -2,6 +2,7 @@ const User = require('@models/user.model');
 const Course = require('@models/course.model');
 const Enrollment = require('@models/enrollment.model');
 const Notification = require('@models/notification.model');
+const UserWatched = require('@models/watched.model');
 
 const { success, error, NotfoundError } = require('@utils');
 
@@ -96,10 +97,10 @@ const instructorDashboard = async (req) => {
       },
       {
         $lookup: {
-          from: 'reviews', // Assuming you have a 'reviews' collection
+          from: 'reviews',
           localField: '_id',
           foreignField: 'course',
-          pipeline: [{ $count: 'totalReviews' }],
+          pipeline: [{ $count: 'reviewCount' }],
           as: 'reviewStats',
         },
       },
@@ -109,29 +110,150 @@ const instructorDashboard = async (req) => {
             $arrayElemAt: ['$approvedEnrollments.approvedEnrollments', 0],
           },
           reviewCount: {
-            $arrayElemAt: ['$reviewStats.totalReviews', 0],
+            $arrayElemAt: ['$reviewStats.reviewCount', 0],
           },
         },
+      },
+      {
+        $sort: { reviewCount: -1 }, // Sort to get top courses by review
+      },
+      {
+        $limit: 5, // Top 5 courses
       },
       {
         $project: {
           title: 1,
           approvedEnrollmentCount: 1,
           reviewCount: 1,
+          rating: 1,
         },
       },
     ]);
 
-    return dashboardData;
+    const notificationData = await Notification.aggregate([
+      {
+        $match: {
+          user: req.user._id,
+        },
+      },
+      {
+        $facet: {
+          unreadCount: [{ $match: { read: false } }, { $count: 'count' }],
+          latestNotifications: [{ $sort: { createdAt: -1 } }, { $limit: 5 }],
+        },
+      },
+    ]);
+
+    return {
+      courses: dashboardData,
+      unreadNotificationCount:
+        notificationData[0]?.unreadCount?.[0]?.count || 0,
+      notifications: notificationData[0]?.latestNotifications || [],
+    };
   } catch (err) {
     throw err;
   }
 };
 
-const studentDashboard = async () => {
+const studentDashboard = async (req) => {
   try {
-    const created = await ModelName.create(payload);
-    return success('ModelName created', created);
+    const studentId = req.user._id;
+    const completedCourses = await Enrollment.aggregate([
+      {
+        $match: {
+          student: studentId,
+          status: 'completed',
+        },
+      },
+      {
+        $lookup: {
+          from: 'courses',
+          localField: 'course',
+          foreignField: '_id',
+          as: 'course',
+        },
+      },
+      { $unwind: '$course' },
+      { $sort: { completedAt: -1 } },
+      {
+        $facet: {
+          recentCompleted: [
+            { $limit: 5 },
+            {
+              $project: {
+                title: '$course.title',
+                image: '$course.image',
+                completedAt: 1,
+              },
+            },
+          ],
+          lastCompleted: [
+            { $limit: 1 },
+            {
+              $lookup: {
+                from: 'lectures',
+                localField: '$course._id',
+                foreignField: 'course',
+                as: 'lectures',
+              },
+            },
+            {
+              $project: {
+                title: '$course.title',
+                image: '$course.image',
+                lectures: {
+                  $map: {
+                    input: '$lectures',
+                    as: 'lecture',
+                    in: {
+                      title: '$$lecture.title',
+                      image: '$$lecture.image',
+                    },
+                  },
+                },
+              },
+            },
+          ],
+          completedCount: [{ $count: 'totalCompleted' }],
+        },
+      },
+    ]);
+
+    const lecturesThisMonth = await UserWatched.aggregate([
+      {
+        $match: {
+          student: studentId,
+          watchedAt: {
+            $gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+          },
+        },
+      },
+      { $count: 'thisMonthLectures' },
+    ]);
+
+    const notifications = await Notification.aggregate([
+      {
+        $match: {
+          recipient: studentId,
+          read: false,
+        },
+      },
+      {
+        $facet: {
+          unreadCount: [{ $count: 'count' }],
+        },
+      },
+    ]);
+
+    return {
+      recentlyCompletedCourses: completedCourses[0].recentCompleted,
+      lastCompletedCourse: completedCourses[0].lastCompleted[0] || null,
+      completedCourseCount:
+        completedCourses[0].completedCount[0]?.totalCompleted || 0,
+      lecturesWatchedThisMonth: lecturesThisMonth[0]?.thisMonthLectures || 0,
+      unreadNotificationCount: notifications[0].unreadCount[0]?.count || 0,
+      notifications: notifications[0].recentUnread || [],
+    };
   } catch (err) {
     throw err;
   }
