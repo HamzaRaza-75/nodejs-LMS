@@ -7,15 +7,9 @@ const { success, error, NotfoundError } = require('@utils');
 
 const adminDashboard = async (req) => {
   try {
-    const [userCount] = await User.aggregate([
-      { $match: { isActive: true } },
-      { $count: 'totalActiveUsers' },
-    ]);
+    const userCount = await User.countDocuments({ isActive: true });
 
-    const [courseCount] = await Course.aggregate([
-      { $match: { isApproved: true } },
-      { $count: 'totalCourses' },
-    ]);
+    const courseCount = await Course.countDocuments({ isApproved: true });
 
     const [totalEnrolledStudents] = await Enrollment.aggregate([
       { $match: { isApproved: true } },
@@ -66,8 +60,8 @@ const adminDashboard = async (req) => {
     }
 
     const data = {
-      userCount: userCount?.totalActiveUsers || 0,
-      courseCount: courseCount?.totalCourses || 0,
+      userCount: userCount || 0,
+      courseCount: courseCount || 0,
       enrolledStudents: totalEnrolledStudents?.[1]?.total || 0, // Note: Total count should be from facet
       notifications: notificationsData?.[1] || [],
       notificationCount: notificationsData?.[0]?.unreadNotifications || 0,
