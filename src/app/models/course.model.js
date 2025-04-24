@@ -8,6 +8,7 @@ const courseSchema = new mongoose.Schema(
     instructor: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     isApproved: { type: Boolean, default: false },
     thumbnail: String,
+    deletedAt: { type: Date, default: null },
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );

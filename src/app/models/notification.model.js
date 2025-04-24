@@ -18,6 +18,7 @@ const notificationSchema = new mongoose.Schema(
         'enrollement',
         'newuser',
         'coursecomplete',
+        'newcourse',
       ],
     },
   },
