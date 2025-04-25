@@ -1,12 +1,11 @@
 const express = require('express');
-const controllerName = require('@controllers/controllerName.controller');
-
 const router = express.Router();
+const lectureController = require('@controllers/instructor/instructor.lecture.controller');
 
-router.get('/', controllerName.get);
-router.post('/', controllerName.store);
-router.get('/:id', controllerName.view);
-router.put('/:id', controllerName.update);
-router.delete('/:id', controllerName.remove);
+router.get('/courses/:courseId/lectures', lectureController.get);
+router.get('/lectures/:id', lectureController.view);
+router.post('/courses/:courseId/lectures', lectureController.store);
+router.put('/lectures/:id', lectureController.update);
+router.delete('/lectures/:id', lectureController.remove);
 
 module.exports = router;
