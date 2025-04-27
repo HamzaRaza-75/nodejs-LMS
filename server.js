@@ -1,21 +1,11 @@
-const app = require('./app').app;
-
-const { PORT, corsOptions } = require('@config');
+const { app } = require('./app'); // Import the app that now includes the cluster logic
 const cors = require('cors');
 const dbConnection = require('@services/dbconnect');
 const rootroutes = require('@routes/root.routes');
 
-app.use(
-  '/api',
-  (req, res, next) => {
-    next();
-  },
-  rootroutes
-);
-
+// Middleware and routes
 app.use(cors());
+app.use('/api', rootroutes);
 dbConnection();
 
-app.listen(PORT, () => {
-  console.log(`server is listening at ${PORT}`);
-});
+// No need to call app.listen here — it's already called in the worker process in app.js
