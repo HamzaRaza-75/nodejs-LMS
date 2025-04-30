@@ -10,14 +10,15 @@ const helperRoutes = require('@routes/helper');
 const { success } = require('@utils');
 const { authMiddleware, roleCheck } = require('@middlewares/auth.middleware');
 
-// router.get('/', (req, res) => {
-//   return success(
-//     res,
-//     200,
-//     'Testing Route : Server is on',
-//     'Welcome To Fiesta Learning Management'
-//   );
-// });
+router.get('/', (req, res) => {
+  console.log(req.app.get('io'));
+  return success(
+    res,
+    200,
+    'Testing Route : Server is on',
+    'Welcome To Fiesta Learning Management'
+  );
+});
 
 router.use('/auth', authroutes);
 

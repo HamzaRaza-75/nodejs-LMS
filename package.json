@@ -12,7 +12,8 @@
     "@instancemethods": "src/app/models/staticinstancemethods",
     "@config": "src/config",
     "@routes": "src/routes",
-    "@utils": "src/utils"
+    "@utils": "src/utils",
+    "@sockets": "src/sockets"
   },
   "scripts": {
     "dev": "nodemon server.js"
