@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const User = require('@models/user.model');
 const chatSocket = require('@sockets/chat.socket');
-const notifSocket = require('@/notification.socket');
+const notifSocket = require('@sockets/notification.socket');
+const socketUsers = require('@utils/socket.utils');
 
 module.exports = function (io) {
   const chat = io.of('/chat');
@@ -21,6 +22,12 @@ module.exports = function (io) {
   };
 
   chat.use(authMiddleware).on('connection', (socket) => {
+    const user = socket.user;
+    socketUsers.addUser(user._id.toString(), socket.id);
+
+    socket.on('disconnect', () => {
+      socketUsers.removeUser(user._id.toString(), socket.id);
+    });
     chatSocket(chat, socket);
   });
 
