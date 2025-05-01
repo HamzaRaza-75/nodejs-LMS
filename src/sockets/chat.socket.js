@@ -29,7 +29,6 @@ module.exports = async function (chat, socket) {
       chat.to(`group_${groupId}`).emit('receive_message', messagePayload);
     } else if (receiver) {
       chat.to(`user_${receiver}`).emit('receive_message', messagePayload);
-      chat.to(`user_${user._id}`).emit('receive_message', messagePayload); // optional for sender UI update
     }
   });
 };
